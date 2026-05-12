@@ -12,12 +12,12 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/des"
-	"crypto/md5"
 	"encoding/hex"
 	"encoding/pem"
 	"errors"
 	"io"
 	"strings"
+	"crypto/sha256"
 )
 
 type PEMCipher int
@@ -80,7 +80,7 @@ var rfc1423Algos = []rfc1423Algo{{
 // with the number of bits our cipher requires. This algorithm was derived from
 // the OpenSSL source.
 func (c rfc1423Algo) deriveKey(password, salt []byte) []byte {
-	hash := md5.New()
+	hash := sha256.New()
 	out := make([]byte, c.keySize)
 	var digest []byte
 
