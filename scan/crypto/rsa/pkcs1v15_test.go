@@ -8,13 +8,13 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/rand"
-	"crypto/sha1"
 	"encoding/base64"
 	"encoding/hex"
 	"io"
 	"math/big"
 	"testing"
 	"testing/quick"
+	"crypto/sha256"
 )
 
 func decodeBase64(in string) []byte {
@@ -194,7 +194,7 @@ var signPKCS1v15Tests = []signPKCS1v15Test{
 
 func TestSignPKCS1v15(t *testing.T) {
 	for i, test := range signPKCS1v15Tests {
-		h := sha1.New()
+		h := sha256.New()
 		h.Write([]byte(test.in))
 		digest := h.Sum(nil)
 
@@ -212,7 +212,7 @@ func TestSignPKCS1v15(t *testing.T) {
 
 func TestVerifyPKCS1v15(t *testing.T) {
 	for i, test := range signPKCS1v15Tests {
-		h := sha1.New()
+		h := sha256.New()
 		h.Write([]byte(test.in))
 		digest := h.Sum(nil)
 
