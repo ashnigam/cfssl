@@ -1,8 +1,8 @@
 package native
 
 import (
-	"crypto/sha1"
 	"math"
+	"crypto/sha256"
 )
 
 // Borrowed from GoMySQL
@@ -13,7 +13,7 @@ func encryptedPasswd(password string, scramble []byte) (out []byte) {
 	}
 	// stage1_hash = SHA1(password)
 	// SHA1 encode
-	crypt := sha1.New()
+	crypt := sha256.New()
 	crypt.Write([]byte(password))
 	stg1Hash := crypt.Sum(nil)
 	// token = SHA1(SHA1(stage1_hash), scramble) XOR stage1_hash
