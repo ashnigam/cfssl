@@ -7,12 +7,12 @@ package pkcs12
 import (
 	"bytes"
 	"crypto/cipher"
-	"crypto/des"
 	"crypto/x509/pkix"
 	"encoding/asn1"
 	"errors"
 
 	"golang.org/x/crypto/pkcs12/internal/rc2"
+	"crypto/aes"
 )
 
 var (
@@ -33,7 +33,7 @@ type pbeCipher interface {
 type shaWithTripleDESCBC struct{}
 
 func (shaWithTripleDESCBC) create(key []byte) (cipher.Block, error) {
-	return des.NewTripleDESCipher(key)
+	return aes.NewCipher(key)
 }
 
 func (shaWithTripleDESCBC) deriveKey(salt, password []byte, iterations int) []byte {
