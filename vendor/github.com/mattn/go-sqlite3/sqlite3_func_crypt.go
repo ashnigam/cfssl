@@ -6,7 +6,6 @@
 package sqlite3
 
 import (
-	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
 )
@@ -51,7 +50,7 @@ import (
 
 // CryptEncoderSHA1 encodes a password with SHA1
 func CryptEncoderSHA1(pass []byte, hash any) []byte {
-	h := sha1.Sum(pass)
+	h := sha256.Sum256(pass)
 	return h[:]
 }
 
@@ -61,7 +60,7 @@ func CryptEncoderSSHA1(salt string) func(pass []byte, hash any) []byte {
 	return func(pass []byte, hash any) []byte {
 		s := []byte(salt)
 		p := append(pass, s...)
-		h := sha1.Sum(p)
+		h := sha256.Sum256(p)
 		return h[:]
 	}
 }
