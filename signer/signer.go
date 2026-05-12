@@ -7,7 +7,6 @@ import (
 	"crypto/ed25519"
 	"crypto/elliptic"
 	"crypto/rsa"
-	"crypto/sha1"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
@@ -24,6 +23,7 @@ import (
 	"github.com/cloudflare/cfssl/helpers"
 	"github.com/cloudflare/cfssl/info"
 	"github.com/cloudflare/cfssl/log"
+	"crypto/sha256"
 )
 
 // Subject contains the information that should be used to override the
@@ -328,7 +328,7 @@ func ComputeSKI(template *x509.Certificate) ([]byte, error) {
 		return nil, err
 	}
 
-	pubHash := sha1.Sum(subPKI.SubjectPublicKey.Bytes)
+	pubHash := sha256.Sum256(subPKI.SubjectPublicKey.Bytes)
 	return pubHash[:], nil
 }
 
