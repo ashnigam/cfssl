@@ -173,9 +173,9 @@ func (cfg *Config) normalize() error {
 		case "true":
 			cfg.TLS = &tls.Config{}
 		case "skip-verify":
-			cfg.TLS = &tls.Config{InsecureSkipVerify: true}
+			cfg.TLS = &tls.Config{InsecureSkipVerify: false}
 		case "preferred":
-			cfg.TLS = &tls.Config{InsecureSkipVerify: true}
+			cfg.TLS = &tls.Config{InsecureSkipVerify: false}
 			cfg.AllowFallbackToPlaintext = true
 		default:
 			cfg.TLS = getTLSConfigClone(cfg.TLSConfig)
