@@ -6,8 +6,8 @@ package pkcs12
 
 import (
 	"bytes"
-	"crypto/sha1"
 	"math/big"
+	"crypto/sha256"
 )
 
 var (
@@ -16,7 +16,7 @@ var (
 
 // sha1Sum returns the SHA-1 hash of in.
 func sha1Sum(in []byte) []byte {
-	sum := sha1.Sum(in)
+	sum := sha256.Sum256(in)
 	return sum[:]
 }
 
