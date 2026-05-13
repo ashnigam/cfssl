@@ -50,7 +50,7 @@ func intermediateCAScan(addr, hostname string) (grade Grade, output Output, err 
 	var wg sync.WaitGroup
 	wg.Add(numWorkers)
 	dialer := &net.Dialer{Timeout: timeout}
-	config := &tls.Config{InsecureSkipVerify: true}
+	config := &tls.Config{InsecureSkipVerify: false}
 	addrs := make(chan string)
 	chains := make(chan []*x509.Certificate, numWorkers)
 	go func() {
