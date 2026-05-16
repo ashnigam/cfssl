@@ -11,7 +11,6 @@ import (
 	"crypto"
 	_ "crypto/md5"
 	"crypto/rand"
-	"crypto/sha1"
 	_ "crypto/sha256"
 	"encoding/hex"
 	"math/big"
@@ -57,11 +56,11 @@ func TestEMSAPSS(t *testing.T) {
 		0x3b, 0xad, 0x54, 0x6f, 0xbe, 0x8c, 0xfe, 0xbc,
 	}
 
-	hash := sha1.New()
+	hash := sha256.New()
 	hash.Write(msg)
 	hashed := hash.Sum(nil)
 
-	encoded, err := emsaPSSEncode(hashed, 1023, salt, sha1.New())
+	encoded, err := emsaPSSEncode(hashed, 1023, salt, sha256.New())
 	if err != nil {
 		t.Errorf("Error from emsaPSSEncode: %s\n", err)
 	}
@@ -69,7 +68,7 @@ func TestEMSAPSS(t *testing.T) {
 		t.Errorf("Bad encoding. got %x, want %x", encoded, expected)
 	}
 
-	if err = emsaPSSVerify(hashed, encoded, 1023, len(salt), sha1.New()); err != nil {
+	if err = emsaPSSVerify(hashed, encoded, 1023, len(salt), sha256.New()); err != nil {
 		t.Errorf("Bad verification: %s", err)
 	}
 }
