@@ -5,7 +5,6 @@ package ubiquity
 // two chains under the context of cross-platform ubiquity.
 
 import (
-	"crypto/sha1"
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
@@ -15,11 +14,12 @@ import (
 
 	"github.com/cloudflare/cfssl/helpers"
 	"github.com/cloudflare/cfssl/log"
+	"crypto/sha256"
 )
 
 // SHA1RawPublicKey returns a SHA1 hash of the raw certificate public key
 func SHA1RawPublicKey(cert *x509.Certificate) string {
-	return fmt.Sprintf("%x", sha1.Sum(cert.RawSubjectPublicKeyInfo))
+	return fmt.Sprintf("%x", sha256.Sum256(cert.RawSubjectPublicKeyInfo))
 }
 
 // CertSet is a succint set of x509 certificates which only stores certificates' SHA1 hashes.
