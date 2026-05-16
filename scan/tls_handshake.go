@@ -273,7 +273,7 @@ func cipherSuiteScan(addr, hostname string) (grade Grade, output Output, err err
 	allCiphers := allCiphersIDs()
 
 	var vers uint16
-	for vers = tls.VersionTLS12; vers >= tls.VersionSSL30; vers-- {
+	for vers = tls.VersionTLS12; vers >= tls.VersionTLS13; vers-- {
 		ciphers := make([]uint16, len(allCiphers))
 		copy(ciphers, allCiphers)
 		for len(ciphers) > 0 {
@@ -286,7 +286,7 @@ func cipherSuiteScan(addr, hostname string) (grade Grade, output Output, err err
 				}
 				return
 			}
-			if vers == tls.VersionSSL30 {
+			if vers == tls.VersionTLS13 {
 				grade = Warning
 			}
 			cipherID := ciphers[cipherIndex]
