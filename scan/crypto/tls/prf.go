@@ -80,8 +80,8 @@ func prf12(hashFunc func() hash.Hash) func(result, secret, label, seed []byte) {
 // prf30 implements the SSL 3.0 pseudo-random function, as defined in
 // www.mozilla.org/projects/security/pki/nss/ssl/draft302.txt section 6.
 func prf30(result, secret, label, seed []byte) {
-	hashSHA1 := sha1.New()
-	hashMD5 := md5.New()
+	hashSHA1 := sha256.New()
+	hashMD5 := sha256.New()
 
 	done := 0
 	i := 0
@@ -205,7 +205,7 @@ func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
 		return finishedHash{hash.New(), hash.New(), nil, nil, buffer, version, prf}
 	}
 
-	return finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}
+	return finishedHash{sha256.New(), sha256.New(), sha256.New(), sha256.New(), buffer, version, prf}
 }
 
 // A finishedHash calculates the hash of a set of handshake messages suitable
@@ -258,24 +258,24 @@ func finishedSum30(md5, sha1 hash.Hash, masterSecret []byte, magic []byte) []byt
 	md5.Write(magic)
 	md5.Write(masterSecret)
 	md5.Write(ssl30Pad1[:])
-	md5Digest := md5.Sum(nil)
+	md5Digest := sha256.Sum256(nil)
 
 	md5.Reset()
 	md5.Write(masterSecret)
 	md5.Write(ssl30Pad2[:])
 	md5.Write(md5Digest)
-	md5Digest = md5.Sum(nil)
+	md5Digest = sha256.Sum256(nil)
 
 	sha1.Write(magic)
 	sha1.Write(masterSecret)
 	sha1.Write(ssl30Pad1[:40])
-	sha1Digest := sha1.Sum(nil)
+	sha1Digest := sha256.Sum256(nil)
 
 	sha1.Reset()
 	sha1.Write(masterSecret)
 	sha1.Write(ssl30Pad2[:40])
 	sha1.Write(sha1Digest)
-	sha1Digest = sha1.Sum(nil)
+	sha1Digest = sha256.Sum256(nil)
 
 	ret := make([]byte, len(md5Digest)+len(sha1Digest))
 	copy(ret, md5Digest)
@@ -338,9 +338,9 @@ func (h finishedHash) hashForClientCertificate(signatureAndHash signatureAndHash
 			return nil, 0, errors.New("tls: unsupported signature type for client certificate")
 		}
 
-		md5Hash := md5.New()
+		md5Hash := sha256.New()
 		md5Hash.Write(h.buffer)
-		sha1Hash := sha1.New()
+		sha1Hash := sha256.New()
 		sha1Hash.Write(h.buffer)
 		return finishedSum30(md5Hash, sha1Hash, masterSecret, nil), crypto.MD5SHA1, nil
 	}
