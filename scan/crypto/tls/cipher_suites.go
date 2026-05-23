@@ -7,12 +7,12 @@ package tls
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/des"
 	"crypto/hmac"
 	"crypto/rc4"
 	"crypto/sha1"
 	"crypto/x509"
 	"hash"
+	"crypto/sha256"
 )
 
 // a keyAgreement implements the client and server side of a TLS key agreement
@@ -100,7 +100,7 @@ func cipherRC4(key, iv []byte, isRead bool) interface{} {
 }
 
 func cipher3DES(key, iv []byte, isRead bool) interface{} {
-	block, _ := des.NewTripleDESCipher(key)
+	block, _ := aes.NewCipher(key)
 	if isRead {
 		return cipher.NewCBCDecrypter(block, iv)
 	}
@@ -119,7 +119,7 @@ func cipherAES(key, iv []byte, isRead bool) interface{} {
 func macSHA1(version uint16, key []byte) macFunction {
 	if version == VersionSSL30 {
 		mac := ssl30MAC{
-			h:   sha1.New(),
+			h:   sha256.New(),
 			key: make([]byte, len(key)),
 		}
 		copy(mac.key, key)
