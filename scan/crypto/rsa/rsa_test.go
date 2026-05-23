@@ -8,7 +8,6 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/rand"
-	"crypto/sha1"
 	"crypto/sha256"
 	"math/big"
 	"testing"
@@ -207,7 +206,7 @@ type testEncryptOAEPStruct struct {
 }
 
 func TestEncryptOAEP(t *testing.T) {
-	sha1 := sha1.New()
+	sha1 := sha256.New()
 	n := new(big.Int)
 	for i, test := range testEncryptOAEPData {
 		n.SetString(test.modulus, 16)
@@ -229,7 +228,7 @@ func TestEncryptOAEP(t *testing.T) {
 func TestDecryptOAEP(t *testing.T) {
 	random := rand.Reader
 
-	sha1 := sha1.New()
+	sha1 := sha256.New()
 	n := new(big.Int)
 	d := new(big.Int)
 	for i, test := range testEncryptOAEPData {
