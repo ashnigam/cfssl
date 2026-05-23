@@ -7,7 +7,6 @@ package tls
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/des"
 	"crypto/hmac"
 	"crypto/rc4"
 	"crypto/sha1"
@@ -100,7 +99,7 @@ func cipherRC4(key, iv []byte, isRead bool) interface{} {
 }
 
 func cipher3DES(key, iv []byte, isRead bool) interface{} {
-	block, _ := des.NewTripleDESCipher(key)
+	block, _ := aes.NewCipher(key)
 	if isRead {
 		return cipher.NewCBCDecrypter(block, iv)
 	}

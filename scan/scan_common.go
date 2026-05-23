@@ -276,6 +276,6 @@ func defaultTLSConfig(hostname string) *tls.Config {
 	return &tls.Config{
 		ServerName:         hostname,
 		RootCAs:            RootCAs,
-		InsecureSkipVerify: true,
+		InsecureSkipVerify: false,
 	}
 }
