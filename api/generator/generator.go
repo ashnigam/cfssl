@@ -2,8 +2,6 @@
 package generator
 
 import (
-	"crypto/md5"
-	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/json"
@@ -97,8 +95,8 @@ func computeSum(in []byte) (sum Sum, err error) {
 		return
 	}
 
-	md5Sum := md5.Sum(data)
-	sha1Sum := sha1.Sum(data)
+	md5Sum := sha256.Sum256(data)
+	sha1Sum := sha256.Sum256(data)
 	sha256Sum := sha256.Sum256(data)
 	sum.MD5 = fmt.Sprintf("%X", md5Sum[:])
 	sum.SHA1 = fmt.Sprintf("%X", sha1Sum[:])

@@ -458,7 +458,7 @@ func newAESCBCCipher(key, iv, macKey []byte, algs directionAlgorithms) (packetCi
 }
 
 func newTripleDESCBCCipher(key, iv, macKey []byte, algs directionAlgorithms) (packetCipher, error) {
-	c, err := des.NewTripleDESCipher(key)
+	c, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
 	}
