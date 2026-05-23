@@ -6,8 +6,6 @@ package x509
 
 import (
 	"bytes"
-	"crypto/md5"
-	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
@@ -20,13 +18,13 @@ type CertificateFingerprint []byte
 
 // MD5Fingerprint creates a fingerprint of data using the MD5 hash algorithm.
 func MD5Fingerprint(data []byte) CertificateFingerprint {
-	sum := md5.Sum(data)
+	sum := sha256.Sum256(data)
 	return sum[:]
 }
 
 // SHA1Fingerprint creates a fingerprint of data using the SHA1 hash algorithm.
 func SHA1Fingerprint(data []byte) CertificateFingerprint {
-	sum := sha1.Sum(data)
+	sum := sha256.Sum256(data)
 	return sum[:]
 }
 

@@ -152,7 +152,7 @@ func ParseCertificateDomain(domain string) (cert *Certificate, err error) {
 	}
 
 	var conn *tls.Conn
-	conn, err = tls.DialWithDialer(&net.Dialer{Timeout: 10 * time.Second}, "tcp", net.JoinHostPort(host, port), &tls.Config{InsecureSkipVerify: true})
+	conn, err = tls.DialWithDialer(&net.Dialer{Timeout: 10 * time.Second}, "tcp", net.JoinHostPort(host, port), &tls.Config{InsecureSkipVerify: false})
 	if err != nil {
 		return
 	}

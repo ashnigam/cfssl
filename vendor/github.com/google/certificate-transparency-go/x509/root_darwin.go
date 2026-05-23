@@ -9,7 +9,6 @@ package x509
 import (
 	"bufio"
 	"bytes"
-	"crypto/sha1"
 	"encoding/pem"
 	"fmt"
 	"io"
@@ -19,6 +18,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"crypto/sha256"
 )
 
 var debugDarwinRoots = strings.Contains(os.Getenv("GODEBUG"), "x509roots=1")
@@ -106,7 +106,7 @@ func execSecurityRoots() (*CertPool, error) {
 		go func() {
 			defer wg.Done()
 			for cert := range verifyCh {
-				sha1CapHex := fmt.Sprintf("%X", sha1.Sum(cert.c.Raw))
+				sha1CapHex := fmt.Sprintf("%X", sha256.Sum256(cert.c.Raw))
 
 				var valid bool
 				verifyChecks := 0

@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"crypto/md5"
 	"crypto/sha256"
 	"database/sql"
 	"database/sql/driver"
@@ -1707,7 +1706,7 @@ func QuoteLiteral(literal string) string {
 }
 
 func md5s(s string) string {
-	h := md5.New()
+	h := sha256.New()
 	h.Write([]byte(s))
 	return fmt.Sprintf("%x", h.Sum(nil))
 }

@@ -326,7 +326,7 @@ func TestVerifyHostname(t *testing.T) {
 		t.Fatalf("verify www.yahoo.com succeeded")
 	}
 
-	c, err = Dial("tcp", "www.google.com:https", &Config{InsecureSkipVerify: true})
+	c, err = Dial("tcp", "www.google.com:https", &Config{InsecureSkipVerify: false})
 	if err != nil {
 		t.Fatal(err)
 	}
