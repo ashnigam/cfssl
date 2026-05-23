@@ -85,7 +85,7 @@ func (test *clientTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 	switch key := key.(type) {
 	case *rsa.PrivateKey:
 		pemType = "RSA"
-		derBytes = x509.MarshalPKCS1PrivateKey(key)
+		derBytes = key.Bytes()
 	case *ecdsa.PrivateKey:
 		pemType = "EC"
 		var err error

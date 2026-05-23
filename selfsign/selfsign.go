@@ -5,7 +5,6 @@ package selfsign
 import (
 	"crypto"
 	"crypto/rand"
-	"crypto/sha1"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
@@ -18,6 +17,7 @@ import (
 	"github.com/cloudflare/cfssl/config"
 	cferr "github.com/cloudflare/cfssl/errors"
 	"github.com/cloudflare/cfssl/signer"
+	"crypto/sha256"
 )
 
 const threeMonths = 2190 * time.Hour
@@ -84,7 +84,7 @@ func Sign(priv crypto.Signer, csrPEM []byte, profile *config.SigningProfile) ([]
 		return nil, err
 	}
 
-	pubhash := sha1.New()
+	pubhash := sha256.New()
 	pubhash.Write(subPKI.SubjectPublicKey.Bytes)
 
 	var (
