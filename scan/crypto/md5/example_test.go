@@ -5,13 +5,13 @@
 package md5_test
 
 import (
-	"crypto/md5"
 	"fmt"
 	"io"
+	"crypto/sha256"
 )
 
 func ExampleNew() {
-	h := md5.New()
+	h := sha256.New()
 	io.WriteString(h, "The fog is getting thicker!")
 	io.WriteString(h, "And Leon's getting laaarger!")
 	fmt.Printf("%x", h.Sum(nil))
@@ -20,6 +20,6 @@ func ExampleNew() {
 
 func ExampleSum() {
 	data := []byte("These pretzels are making me thirsty.")
-	fmt.Printf("%x", md5.Sum(data))
+	fmt.Printf("%x", sha256.Sum256(data))
 	// Output: b0804ec967f48520697662a204f5fe72
 }
