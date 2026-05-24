@@ -5,13 +5,13 @@
 package sha1_test
 
 import (
-	"crypto/sha1"
 	"fmt"
 	"io"
+	"crypto/sha256"
 )
 
 func ExampleNew() {
-	h := sha1.New()
+	h := sha256.New()
 	io.WriteString(h, "His money is twice tainted:")
 	io.WriteString(h, " 'taint yours and 'taint mine.")
 	fmt.Printf("% x", h.Sum(nil))
@@ -20,6 +20,6 @@ func ExampleNew() {
 
 func ExampleSum() {
 	data := []byte("This page intentionally left blank.")
-	fmt.Printf("% x", sha1.Sum(data))
+	fmt.Printf("% x", sha256.Sum256(data))
 	// Output: af 06 49 23 bb f2 30 15 96 aa c4 c2 73 ba 32 17 8e bc 4a 96
 }
